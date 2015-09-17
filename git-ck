@@ -1,0 +1,55 @@
+#!/usr/bin/ruby
+
+# Simple function to save wip on branches and uncheck it out on return
+# Copyright © 2015 Dylan Baker
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# Provides a simple wrapper around git checkout that saves and restores work in
+# progress.
+#
+# When one calls git-ck on a branch with staged code, git-ck will commit that
+# as a commit called 'git-ck: staged'. When one calls git-ck on a branch with
+# unstaged code git-ck will commit that as 'git-ck: unstaged'.
+
+STATUS = `git status`
+
+def check_staged
+  return STATUS.include?('Changes to be committed:')
+end
+
+def check_unstaged
+  return STATUS.include?('Changes not staged for commit:')
+end
+
+def commit_staged
+  `git commit --message 'git-ck: staged'`
+end
+
+def commit_unstaged
+  `git commit --all --message 'git-ck: unstaged'`
+end
+
+def main
+  commit_staged if check_staged
+  commit_unstaged if check_unstaged
+  `git checkout #{ARGV.join(' ')}`
+end
+
+main if __FILE__ == $PROGRAM_NAME
