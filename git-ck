@@ -46,10 +46,38 @@ def commit_unstaged
   `git commit --all --message 'git-ck: unstaged'`
 end
 
+def check_unstaged_commit(log)
+  return !!(/git-ck: unstaged/ =~ log[0])
+end
+
+def check_staged_commit(log)
+  return !!(/git-ck: staged/ =~ log[1])
+end
+
+# This is a little more complicated than making the initial commits. What's
+# happening is that the unstaged changes are uncommited, then stashed. Then
+# the staged changes are uncommited and staged. Finally the unstaged changes
+# are poped from the stash
+def uncommit
+  log = `git log`.split(/\n/)[0..1]
+  if check_unstaged_commit(log)
+    `git reset HEAD~`
+    `git stash`
+  end
+
+  if check_staged_commit(log)
+    `git reset HEAD~`
+    `git add --update`  # This wil not add untracked files
+  end
+
+  `git stash pop` if check_unstaged_commit(log)
+end
+
 def main
   commit_staged if check_staged
   commit_unstaged if check_unstaged
   `git checkout #{ARGV.join(' ')}`
+  uncommit
 end
 
 main if __FILE__ == $PROGRAM_NAME
