@@ -12,11 +12,13 @@ Copy git-ck to somewhere in your path. For Linux uses a good option is either /u
 
 ## Shell completions
 ### Bash
-Copy bash/_git_ck them to somewhere bash will source them. Unfortunately this is very OS specific (even between linux distributions there is no consensus)
+Copy bash/\_git_ck them to somewhere bash will source them. Unfortunately this is very OS specific (even between linux distributions there is no consensus)
 
 ### Zsh
-Add the following to your zshrc (or somewhere that will be sourced by zsh)
+copy the zsh/\_git-ck file to somewhere in your fpath. For example: ~/.local/share/zsh-completions/.
+
+Then ensure that location is at the head of fpath, add the following to your .zshrc (or somewhere that will be sourced by zshrc)
 
 ```zsh
-compdef '_git checkout' git-ck 'git ck'
+fpath=(~/.local/share/zsh-completions/ $fpath)
 ```
