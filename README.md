@@ -11,6 +11,12 @@ It was developed against ruby 2.2, but I haven't used any fancy features, so it 
 Copy git-ck to somewhere in your path. For Linux uses a good option is either /usr/local/bin (for system-wide install) or ~/.local/bin (for user-specific install)
 
 ## Shell completions
-Bash completions are provided, copy them to somewhere bash will source them. Unfortunately this is very OS specific (even between linux distributions there is no consensus)
+### Bash
+Copy bash/_git_ck them to somewhere bash will source them. Unfortunately this is very OS specific (even between linux distributions there is no consensus)
 
-Zsh completions are coming, but are not as simple as bash completions.
+### Zsh
+Add the following to your zshrc (or somewhere that will be sourced by zsh)
+
+```zsh
+compdef '_git checkout' git-ck 'git ck'
+```
