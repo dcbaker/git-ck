@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
+# Bash completions for git-ck
+
 # FIXME: This almost certainly is not distro safe, it works on Arch, and thats
 #        a start
 source /usr/share/git/completion/git-completion.bash
