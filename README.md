@@ -28,8 +28,8 @@ This repo provides a git hook to prevent git-ck commits from being pushed. Put g
 
 For global install consider doing something like this:
 ```sh
-mkdir -p ~/.git/hooks
-git config --global init.templatedir '~/.git/hooks'
+mkdir -p ~/.local/share/git/hooks
+git config --global init.templatedir '~/.local/share/git'
 cp <hook> `/.git/hooks/pre-push
 ```
 This will means all new repositories will use the new git hook. You can call ```git init``` again on a repo to use the new hooks.
