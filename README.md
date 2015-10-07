@@ -26,10 +26,10 @@ fpath=(~/.local/share/zsh-completions/ $fpath)
 ## git hook
 This repo provides a git hook to prevent git-ck commits from being pushed. Put git/pre-push.rb in <repo>/.git/hooks as "pre-push", and they will abort pushing if their conditions are met. Make sure the script is executable and doesn't have a file extension!
 
-For global install consider doing something like this:
+To install this to all repositories for a single user consider something like this:
 ```sh
 mkdir -p ~/.local/share/git/hooks
-git config --global init.templatedir '~/.local/share/git'
-cp <hook> `/.git/hooks/pre-push
+git config --global init.templatedir ~/.local/share/git
+cp git/pre-push.rb ~/.local/share/git/hooks/pre-push
 ```
 This will means all new repositories will use the new git hook. You can call ```git init``` again on a repo to use the new hooks.
