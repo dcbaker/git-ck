@@ -33,3 +33,5 @@ git config --global init.templatedir ~/.local/share/git
 cp git/pre-push.rb ~/.local/share/git/hooks/pre-push
 ```
 This will means all new repositories will use the new git hook. You can call ```git init``` again on a repo to use the new hooks.
+
+Note: You can't use this on git-ck itself, since it has commits prefaced with git-ck: and will always fail.
