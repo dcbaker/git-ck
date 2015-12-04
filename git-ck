@@ -56,11 +56,14 @@ end
 # the staged changes are uncommited and staged. Finally the unstaged changes
 # are poped from the stash
 def uncommit
+  stashed = false
+
   log = `git log -#{MANAGED_COMMIT_COUNT}`.split(/\n/)
   log.each do |commit|
     if check_unstaged_commit(commit)
       `git reset HEAD~`
       `git stash`
+      stashed = true
     end
 
     if check_staged_commit(commit)
@@ -68,6 +71,8 @@ def uncommit
       `git add --update`  # This wil not add untracked files
     end
   end
+  
+  `git stash pop` if stashed
 end
 
 def main
