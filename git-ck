@@ -44,11 +44,11 @@ def commit_unstaged
 end
 
 def check_unstaged_commit(log)
-  return !!(/git-ck: unstaged/ =~ log[0])
+  return !!(/git-ck: unstaged/ =~ log)
 end
 
 def check_staged_commit(log)
-  return !!(/git-ck: staged/ =~ log[1])
+  return !!(/git-ck: staged/ =~ log)
 end
 
 # This is a little more complicated than making the initial commits. What's
@@ -57,17 +57,17 @@ end
 # are poped from the stash
 def uncommit
   log = `git log -#{MANAGED_COMMIT_COUNT}`.split(/\n/)[0..1]
-  if check_unstaged_commit(log)
-    `git reset HEAD~`
-    `git stash`
-  end
+  log.each do |commit|
+    if check_unstaged_commit(commit)
+      `git reset HEAD~`
+      `git stash`
+    end
 
-  if check_staged_commit(log)
-    `git reset HEAD~`
-    `git add --update`  # This wil not add untracked files
+    if check_staged_commit(commit)
+      `git reset HEAD~`
+      `git add --update`  # This wil not add untracked files
+    end
   end
-
-  `git stash pop` if check_unstaged_commit(log)
 end
 
 def main
