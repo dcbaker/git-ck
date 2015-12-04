@@ -56,7 +56,7 @@ end
 # the staged changes are uncommited and staged. Finally the unstaged changes
 # are poped from the stash
 def uncommit
-  log = `git log -#{MANAGED_COMMIT_COUNT}`.split(/\n/)[0..1]
+  log = `git log -#{MANAGED_COMMIT_COUNT}`.split(/\n/)
   log.each do |commit|
     if check_unstaged_commit(commit)
       `git reset HEAD~`
